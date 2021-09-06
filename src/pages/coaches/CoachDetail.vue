@@ -11,7 +11,7 @@
         <h2>Interested? Reach out now!</h2>
         <base-button link :to="contactLink">Contact</base-button>
       </header>
-      <router-view></router-view>
+      <router-view ></router-view>
     </base-card>
   </section>
   <section>
@@ -29,6 +29,7 @@
 
 <script>
 export default {
+  name: 'CoachDetail.vue',
   props: ['id'],
   data() {
     return {
@@ -36,22 +37,21 @@ export default {
     };
   },
   computed: {
-    fullName(){
-      return this.selectedCoach.firstName + " " + this.selectedCoach.lastName;
+    fullName() {
+      return this.selectedCoach.firstName + ' ' + this.selectedCoach.lastName;
     },
-    contactLink(){
-      return this.$route.path + '/' + this.id + '/contact';
+    contactLink() {
+      return this.$route.path + '/contact';
     },
-    areas(){
+    areas() {
       return this.selectedCoach.areas;
     },
-    rate(){
+    rate() {
       return this.selectedCoach.hourlyRate;
     },
-    description(){
+    description() {
       return this.selectedCoach.description;
-    }
-
+    },
   },
   created() {
     this.selectedCoach = this.$store.getters['coaches/coaches_getter'].find(
