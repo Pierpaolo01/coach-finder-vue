@@ -1,10 +1,13 @@
 <template>
+<base-dialog :show="!!error" title="An error occured!" @close="handleError">
+<p> {{error}} </p>
+</base-dialog>
   <coach-filter @change-filter="setFilters" />
   <section>
     <base-card>
       <div class="controls">
         <base-button @click="loadCoaches" mode="outline">Refresh</base-button>
-        <base-button v-if="!isCoach && isLoading" link to="/register">Register as Coach</base-button>
+        <base-button v-if="!isCoach && !isLoading" link to="/register">Register as Coach</base-button>
       </div>
       <div v-if="isLoading">
         <base-spinner />
@@ -44,6 +47,7 @@ export default {
         career: true,
       },
       isLoading: false,
+      error: null,
     };
   },
   methods: {
@@ -52,8 +56,15 @@ export default {
     },
     async loadCoaches(){
       this.isLoading = true;
-      await this.$store.dispatch('coaches/load_coaches');
+      try{
+        await this.$store.dispatch('coaches/load_coaches');
+      }catch(e){
+        this.error = e.message || 'something went wrong!'; 
+      }
       this.isLoading = false;
+    },
+    handleError(){
+      this.error = null;
     },
   },
   computed: {
