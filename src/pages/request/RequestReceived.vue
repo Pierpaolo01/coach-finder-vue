@@ -49,7 +49,6 @@ export default {
   },
   computed: {
     recievedRequests() {
-      console.log(this.$store.getters['requests/requests']);
       return this.$store.getters['requests/requests'];
     },
 

@@ -26,7 +26,11 @@ export default {
       id: userId
     });
   },
-  async load_coaches(context){
+  async load_coaches(context, payload){
+    if(payload.forceRefresh && !context.getters.should_update){
+      return;
+    }
+
     const response = await fetch(`https://vue-coaches-app-8b3dc-default-rtdb.europe-west1.firebasedatabase.app/coaches.json`);
     const resData = await response.json();
 
@@ -49,5 +53,6 @@ export default {
     }
 
     context.commit('set_coaches', coaches);
+    context.commit('set_fetch_timestamp');
   }
 };
